@@ -11,6 +11,9 @@ import UpdateProfilePage from "./pages/UpdateProfilePage";
 import CreatePost from "./components/CreatePost";
 import ChatPage from "./pages/ChatPage";
 import { SettingsPage } from "./pages/SettingsPage";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
+import TermsAndConditionsPage from "./pages/TermsAndConditionsPage";
+import ContactUsPage from "./pages/ContactUsPage";
 function App() {
 	const user = useRecoilValue(userAtom);
 	const { pathname } = useLocation();
@@ -39,6 +42,9 @@ function App() {
 					<Route path='/:username/post/:pid' element={<PostPage />} />
 					<Route path='/chat' element={user ? <ChatPage /> : <Navigate to={"/auth"} />} />
 					<Route path='/settings' element={user ? <SettingsPage /> : <Navigate to={"/auth"} />} />
+					<Route path='/privacy-policy' element={<PrivacyPolicyPage />} />
+					<Route path='/terms-and-conditions' element={<TermsAndConditionsPage />} />
+					<Route path='/contact-us' element={<ContactUsPage />} />
 				</Routes>
 			</Container>
 		</Box>
