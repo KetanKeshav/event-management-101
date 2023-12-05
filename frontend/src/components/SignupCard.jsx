@@ -20,6 +20,7 @@ import { useSetRecoilState } from "recoil";
 import authScreenAtom from "../atoms/authAtom";
 import useShowToast from "../hooks/useShowToast";
 import userAtom from "../atoms/userAtom";
+import { Link as ChakraLink } from "@chakra-ui/react";
 
 export default function SignupCard() {
 	const [showPassword, setShowPassword] = useState(false);
@@ -130,12 +131,21 @@ export default function SignupCard() {
 							</Button>
 						</Stack>
 						<Stack pt={6}>
-							<Text align={"center"}>
-								Already a user?{" "}
-								<Link color={"blue.400"} onClick={() => setAuthScreen("login")}>
-									Login
-								</Link>
-							</Text>
+						<Text align={"center"}>
+							Already a user?{" "}
+							<Link color={"blue.400"} onClick={() => setAuthScreen("login")}>
+							Login
+							</Link>
+						</Text>
+						<Text align={"center"}>
+							<ChakraLink color={"blue.400"} href="/privacy-policy">
+							Privacy Policy
+							</ChakraLink>{" "}
+							and{" "}
+							<ChakraLink color={"blue.400"} href="/terms-and-conditions">
+							Terms and Conditions
+							</ChakraLink>
+						</Text>
 						</Stack>
 					</Stack>
 				</Box>
