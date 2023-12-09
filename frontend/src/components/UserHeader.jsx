@@ -3,7 +3,6 @@ import { Box, Flex, Link, Text, VStack } from "@chakra-ui/layout";
 import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/menu";
 import { Portal } from "@chakra-ui/portal";
 import { Button, useToast } from "@chakra-ui/react";
-import { BsInstagram } from "react-icons/bs";
 import { CgMoreO } from "react-icons/cg";
 import { useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
@@ -37,9 +36,6 @@ const UserHeader = ({ user }) => {
 					</Text>
 					<Flex gap={2} alignItems={"center"}>
 						<Text fontSize={"sm"}>{user.username}</Text>
-						<Text fontSize={"xs"} bg={"gray.dark"} color={"gray.light"} p={1} borderRadius={"full"}>
-							threads.net
-						</Text>
 					</Flex>
 				</Box>
 				<Box>
@@ -81,13 +77,11 @@ const UserHeader = ({ user }) => {
 			<Flex w={"full"} justifyContent={"space-between"}>
 				<Flex gap={2} alignItems={"center"}>
 					<Text color={"gray.light"}>{user.followers.length} followers</Text>
+					<Text color={"gray.light"}>{user.following.length} following</Text>
 					<Box w='1' h='1' bg={"gray.light"} borderRadius={"full"}></Box>
 					<Link color={"gray.light"}>instagram.com</Link>
 				</Flex>
 				<Flex>
-					<Box className='icon-container'>
-						<BsInstagram size={24} cursor={"pointer"} />
-					</Box>
 					<Box className='icon-container'>
 						<Menu>
 							<MenuButton>
@@ -117,7 +111,7 @@ const UserHeader = ({ user }) => {
 					pb='3'
 					cursor={"pointer"}
 				>
-					<Text fontWeight={"bold"}> Replies</Text>
+					{/* <Text fontWeight={"bold"}> Replies</Text> */}
 				</Flex>
 			</Flex>
 		</VStack>

@@ -11,20 +11,22 @@ import UpdateProfilePage from "./pages/UpdateProfilePage";
 import CreatePost from "./components/CreatePost";
 import ChatPage from "./pages/ChatPage";
 import { SettingsPage } from "./pages/SettingsPage";
-import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
-import TermsAndConditionsPage from "./pages/TermsAndConditionsPage";
-import ContactUsPage from "./pages/ContactUsPage";
+import AdminAnalyticsPage from "./pages/AdminAnalyticsPage";
+import UniversePage from "./pages/UniversePage";
+
 function App() {
 	const user = useRecoilValue(userAtom);
 	const { pathname } = useLocation();
 	return (
 		<Box position={"relative"} w='full'>
-			<Container maxW={pathname === "/" ? { base: "620px", md: "900px" } : "620px"}>
+			<Container maxW={pathname.match(/^\/(auth)?$/) ? "1550px" : { base: "620px", md: "900px" } }>
 				<Header />
 				<Routes>
-					<Route path='/' element={user ? <HomePage /> : <Navigate to='/auth' />} />
-					<Route path='/auth' element={!user ? <AuthPage /> : <Navigate to='/' />} />
+					<Route path='/' element={<UniversePage />} />
+					<Route path='/home' element={user ? <HomePage /> : <Navigate to='/auth' />} />
+					<Route path='/auth' element={!user ? <AuthPage /> : <Navigate to='/home' />} />
 					<Route path='/update' element={user ? <UpdateProfilePage /> : <Navigate to='/auth' />} />
+					<Route path='/admin' element={(user && user.isAdmin) ? <AdminAnalyticsPage/> : <Navigate to='/auth'/>} />
 
 					<Route
 						path='/:username'
@@ -35,16 +37,13 @@ function App() {
 									<CreatePost />
 								</>
 							) : (
-								<UserPage />
+								<Navigate to={"/auth"} />
 							)
 						}
 					/>
 					<Route path='/:username/post/:pid' element={<PostPage />} />
 					<Route path='/chat' element={user ? <ChatPage /> : <Navigate to={"/auth"} />} />
-					<Route path='/settings' element={user ? <SettingsPage /> : <Navigate to={"/auth"} />} />
-					<Route path='/privacy-policy' element={<PrivacyPolicyPage />} />
-					<Route path='/terms-and-conditions' element={<TermsAndConditionsPage />} />
-					<Route path='/contact-us' element={<ContactUsPage />} />
+					<Route path='/settings' element={user ? <SettingsPage /> : <Navigate to={"/auth"} />} />						
 				</Routes>
 			</Container>
 		</Box>

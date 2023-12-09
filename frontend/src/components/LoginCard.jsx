@@ -19,7 +19,7 @@ import { useSetRecoilState } from "recoil";
 import authScreenAtom from "../atoms/authAtom";
 import useShowToast from "../hooks/useShowToast";
 import userAtom from "../atoms/userAtom";
-import { Link as ChakraLink } from "@chakra-ui/react";
+import {useEffect} from 'react';
 
 export default function LoginCard() {
 	const [showPassword, setShowPassword] = useState(false);
@@ -55,24 +55,61 @@ export default function LoginCard() {
 			setLoading(false);
 		}
 	};
+
+	const testRegex = (pattern, str) => {
+		return pattern.test(str)
+	}
+
+	const [backgroundImage, setBackgroundImage] = useState("");
+
+	useEffect(() => {
+	const fetchBackgroundImage = async () => {
+		try {
+		const response = await fetch("https://source.unsplash.com/1600x900/?universe");
+		setBackgroundImage(response.url);
+		} catch (error) {
+		console.error("Error fetching background image", error);
+		}
+	};
+
+	fetchBackgroundImage();
+	}, []);
+
 	return (
+		<Flex
+			align={"center"}
+			justify={"center"}
+			bgImage={`url(${backgroundImage})`}
+			bgSize="cover"
+			bgPosition="center"
+			minH={"100vh"}
+		>
 		<Flex align={"center"} justify={"center"}>
-			<Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
-				<Stack align={"center"}>
+		<Stack
+			spacing={8}
+			mx={"auto"}
+			maxW={{ base: "full", sm: "400px", md: "600px", lg: "800px" }}
+			py={12}
+			px={6}
+		>
+				{/* <Stack align={"center"}>
 					<Heading fontSize={"4xl"} textAlign={"center"}>
 						Login
 					</Heading>
-				</Stack>
+				</Stack> */}
 				<Box
 					rounded={"lg"}
 					bg={useColorModeValue("white", "gray.dark")}
 					boxShadow={"lg"}
 					p={8}
-					w={{
-						base: "full",
-						sm: "400px",
-					}}
+					w={{ base: "full", sm: "400px" }} 
 				>
+					<Stack align={"center"}>
+					<Heading fontSize={{ base: "2xl", md: "3xl", lg: "4xl" }} textAlign={"center"}>
+						Login
+					</Heading>
+				</Stack>
+				<br></br>
 					<Stack spacing={4}>
 						<FormControl isRequired>
 							<FormLabel>Username</FormLabel>
@@ -81,6 +118,11 @@ export default function LoginCard() {
 								value={inputs.username}
 								onChange={(e) => setInputs((inputs) => ({ ...inputs, username: e.target.value }))}
 							/>
+							
+							<Text color="red" fontSize="sm">
+								{inputs.username !== "" ? testRegex(/^[a-zA-Z0-9]{4,20}$/, inputs.username) ? "" : "The username must be 4 to 20 characters long. It can only contain letters (both uppercase and lowercase) and numbers. Special characters and spaces are not allowed." : ""}
+							</Text>		
+							
 						</FormControl>
 						<FormControl isRequired>
 							<FormLabel>Password</FormLabel>
@@ -99,6 +141,11 @@ export default function LoginCard() {
 									</Button>
 								</InputRightElement>
 							</InputGroup>
+
+							<Text color="red" fontSize="sm">
+								{inputs.password !== "" ? testRegex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})/, inputs.password) ? "" : "The password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character. It must be at least 8 characters long. Special characters include symbols such as !, @, #, $, etc." : ""}
+							</Text>
+
 						</FormControl>
 						<Stack spacing={10} pt={2}>
 							<Button
@@ -116,25 +163,17 @@ export default function LoginCard() {
 							</Button>
 						</Stack>
 						<Stack pt={6}>
-						<Text align={"center"}>
-							Don&apos;t have an account?{" "}
-							<Link color={"blue.400"} onClick={() => setAuthScreen("signup")}>
-							Sign up
-							</Link>
-						</Text>
-						<Text align={"center"}>
-							<ChakraLink color={"blue.400"} href="/privacy-policy">
-							Privacy Policy
-							</ChakraLink>{" "}
-							and{" "}
-							<ChakraLink color={"blue.400"} href="/terms-and-conditions">
-							Terms and Conditions
-							</ChakraLink>
-						</Text>
+							<Text align={"center"}>
+								Don&apos;t have an account?{" "}
+								<Link color={"blue.400"} onClick={() => setAuthScreen("signup")}>
+									Sign up
+								</Link>
+							</Text>
 						</Stack>
 					</Stack>
 				</Box>
 			</Stack>
+		</Flex>
 		</Flex>
 	);
 }

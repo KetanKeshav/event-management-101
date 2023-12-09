@@ -8,7 +8,7 @@ const SuggestedUser = ({ user }) => {
 	return (
 		<Flex gap={2} justifyContent={"space-between"} alignItems={"center"}>
 			{/* left side */}
-			<Flex gap={2} as={Link} to={`${user.username}`}>
+			<Flex gap={2} as={Link} to={`/${user.username}`}>
 				<Avatar src={user.profilePic} />
 				<Box>
 					<Text fontSize={"sm"} fontWeight={"bold"}>
@@ -39,7 +39,7 @@ const SuggestedUser = ({ user }) => {
 
 export default SuggestedUser;
 
-//  SuggestedUser component, if u want to copy and paste as shown in the tutorial
+//  SuggestedUser component
 
 {
 	/* <Flex gap={2} justifyContent={"space-between"} alignItems={"center"}>
